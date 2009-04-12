@@ -6,30 +6,33 @@ Name:		jira-enterprise
 Version:	3.13.3
 Release:	0.1
 License:	Proprietary, not distributable
-Group:          Networking/Daemons/Java/Servlets
-Source0:	http://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-enterprise-3.13.3.tar.gz
+Group:		Networking/Daemons/Java/Servlets
+Source0:	http://www.atlassian.com/software/jira/downloads/binary/atlassian-%{name}-%{version}.tar.gz
 # NoSource0-md5:	9810796dcf4331218c3874174c9dbbee
 NoSource:	0
-Source1:	%{name}-context.xml
+Source1:	http://www.atlassian.com/software/jira/docs/servers/jars/v1/jira-jars-tomcat5.zip
+# NoSource1-md5:	0c1184bc77a55cb09c3cd1a66ca06b4f
+NoSource:	1
+Source2:	%{name}-context.xml
 URL:		http://www.atlassian.com/software/jira/default.jsp
 BuildRequires:	jpackage-utils
 BuildRequires:	rpm-javaprov
 BuildRequires:	rpmbuild(macros) >= 1.300
-Requires:	group(servlet)
 Requires:	jpackage-utils
+Requires:	tomcat
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-JIRA lets you prioritise, assign, track, report and audit your 'issues,'
-whatever they may be — from software bugs and help-desk tickets to project
-tasks and change requests.
+JIRA lets you prioritise, assign, track, report and audit your
+'issues,' whatever they may be — from software bugs and help-desk
+tickets to project tasks and change requests.
 
-More than just an issue tracker, JIRA is an extensible platform that you can
-customise to match to your business processes.
+More than just an issue tracker, JIRA is an extensible platform that
+you can customise to match to your business processes.
 
 %prep
-%setup -n atlassian-%{name}-%{version}
+%setup -q -n atlassian-%{name}-%{version} -a 1
 
 %build
 %ant compile
@@ -37,8 +40,9 @@ customise to match to your business processes.
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sysconfdir}/jira,%{_datadir},%{_sharedstatedir}/{jira,tomcat/conf/Catalina/localhost}}
-install %{SOURCE1} $RPM_BUILD_ROOT%{_sharedstatedir}/tomcat/conf/Catalina/localhost/jira.xml
+install %{SOURCE2} $RPM_BUILD_ROOT%{_sharedstatedir}/tomcat/conf/Catalina/localhost/jira.xml
 cp -a tmp/build/war $RPM_BUILD_ROOT%{_datadir}/jira
+cp -a jira-jars-tomcat5 $RPM_BUILD_ROOT%{_datadir}/tomcat/common/lib
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -51,3 +55,4 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %{_sharedstatedir}/tomcat/conf/Catalina/localhost/jira.xml
 %{_datadir}/jira
 %attr(2775,root,servlet) %dir %{_sharedstatedir}/jira
+%{_datadir}/tomcat/common/lib/*.jar
