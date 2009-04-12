@@ -36,7 +36,7 @@ customise to match to your business processes.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sysconfdir}/jira,%{_datadir}/jira,%{_sharedstatedir}/{jira,tomcat/conf/Catalina/localhost}}
+install -d $RPM_BUILD_ROOT{%{_sysconfdir}/jira,%{_datadir},%{_sharedstatedir}/{jira,tomcat/conf/Catalina/localhost}}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_sharedstatedir}/tomcat/conf/Catalina/localhost/jira.xml
 cp -a tmp/build/war $RPM_BUILD_ROOT%{_datadir}/jira
 
