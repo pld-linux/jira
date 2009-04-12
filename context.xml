@@ -3,4 +3,34 @@
 <Context path="/jira" docBase="/usr/share/jira"
         privileged="false" allowLinking="true">
 
+  <Resource name="jdbc/JiraDS" auth="Container" type="javax.sql.DataSource"
+    username="sa"
+    password=""
+    driverClassName="org.hsqldb.jdbcDriver"
+    url="jdbc:hsqldb:/var/lib/jira/jiradb/"
+    minEvictableIdleTimeMillis="4000"
+    timeBetweenEvictionRunsMillis="5000"/>
+  
+  <Resource
+    name="UserTransaction"
+    auth="Container"
+    type="javax.transaction.UserTransaction"
+    factory="org.objectweb.jotm.UserTransactionFactory"
+    jotm.timeout="60"/>
+
+  <Manager pathname=""/>
+
+  <!-- If you want to use mysql database, comment out previous jdbc resource,
+       and uncomment this one.
+
+  <Resource name="jdbc/JiraDS" auth="Container" type="javax.sql.DataSource"
+    username="jirauser"
+    password="jirapassword"
+    driverClassName="com.mysql.jdbc.Driver"
+    url="jdbc:mysql://localhost/jiradb?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF8"
+    maxActive="20"
+    validationQuery="select 1" />
+
+    -->
+
 </Context>
