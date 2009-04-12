@@ -44,7 +44,7 @@ install %{SOURCE2} $RPM_BUILD_ROOT%{_sharedstatedir}/tomcat/conf/Catalina/localh
 cp -a tmp/build/war $RPM_BUILD_ROOT%{_datadir}/jira
 
 # libraries missing in tomcat 5.5
-install -d %{_datadir}/tomcat/common/lib
+install -d $RPM_BUILD_ROOT%{_datadir}/tomcat/common/lib
 cp -a jira-jars-tomcat5 $RPM_BUILD_ROOT%{_datadir}/tomcat/common/lib
 
 %clean
