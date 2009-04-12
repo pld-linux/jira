@@ -1,0 +1,32 @@
+*** JIRA Installation Instruction for PLD Linux ***
+
+1. build package:
+
+builder -bb jira-enterprise
+
+2. install it:
+
+rpm -Uvh rpm/RPMS/jira-enterprise*
+
+3. restart tomcat:
+
+service tomcat restart
+
+4. configure jira
+
+If you want to use mysql instead of default internal database, you must
+configure it in /etc/tomcat/Catalina/localhost/jira.xml, and append following
+line to /etc/services/tomcat:
+
+export CATALINA_OPTS="$CATALINA_OPTS -Dorg.apache.jasper.runtime.BodyContentImpl.LIMIT_BUFFER=true"
+
+Point your browser to http://server:8080/jira
+film the form. You can use following directories for index, attachements and
+backups respectively:
+  * /var/lib/jira/index
+  * /var/lib/jira/attachements
+  * /var/lib/jira/backups
+These directories are preconfigured by rpm, so you don't have to create them
+nor set permissions.
+
+Follow the instrucions on screen.
