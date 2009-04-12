@@ -39,7 +39,7 @@ you can customise to match to your business processes.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sysconfdir}/jira,%{_datadir},%{_sharedstatedir}/{jira,tomcat/conf/Catalina/localhost}}
+install -d $RPM_BUILD_ROOT{%{_sysconfdir}/jira,%{_datadir},%{_sharedstatedir}/{jira/jiradb,tomcat/conf/Catalina/localhost}}
 install %{SOURCE2} $RPM_BUILD_ROOT%{_sharedstatedir}/tomcat/conf/Catalina/localhost/jira.xml
 cp -a tmp/build/war $RPM_BUILD_ROOT%{_datadir}/jira
 cp -a jira-jars-tomcat5 $RPM_BUILD_ROOT%{_datadir}/tomcat/common/lib
@@ -55,4 +55,5 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %{_sharedstatedir}/tomcat/conf/Catalina/localhost/jira.xml
 %{_datadir}/jira
 %attr(2775,root,servlet) %dir %{_sharedstatedir}/jira
+%attr(2775,root,servlet) %dir %{_sharedstatedir}/jira/jiradb
 %{_datadir}/tomcat/common/lib/*.jar
