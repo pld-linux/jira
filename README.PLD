@@ -21,10 +21,10 @@ line to /etc/services/tomcat:
 export CATALINA_OPTS="$CATALINA_OPTS -Dorg.apache.jasper.runtime.BodyContentImpl.LIMIT_BUFFER=true"
 
 Point your browser to http://server:8080/jira
-film the form. You can use following directories for index, attachements and
+film the form. You can use following directories for index, attachments and
 backups respectively:
   * /var/lib/jira/index
-  * /var/lib/jira/attachements
+  * /var/lib/jira/attachments
   * /var/lib/jira/backups
 These directories are preconfigured by rpm, so you don't have to create them
 nor set permissions.
