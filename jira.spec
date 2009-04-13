@@ -27,7 +27,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 JIRA lets you prioritise, assign, track, report and audit your
-'issues,' whatever they may be — from software bugs and help-desk
+'issues,' whatever they may be - from software bugs and help-desk
 tickets to project tasks and change requests.
 
 More than just an issue tracker, JIRA is an extensible platform that
