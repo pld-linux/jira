@@ -3,6 +3,9 @@
 <Context path="/jira" docBase="/usr/share/jira"
         privileged="false" allowLinking="true">
 
+  <!-- WARNING: It is highly remomended to use real database instead of
+       internal hsqldb. See example config for mysql below -->
+
   <Resource name="jdbc/JiraDS" auth="Container" type="javax.sql.DataSource"
     username="sa"
     password=""
@@ -11,17 +14,11 @@
     minEvictableIdleTimeMillis="4000"
     timeBetweenEvictionRunsMillis="5000"/>
   
-  <Resource
-    name="UserTransaction"
-    auth="Container"
-    type="javax.transaction.UserTransaction"
-    factory="org.objectweb.jotm.UserTransactionFactory"
-    jotm.timeout="60"/>
-
-  <Manager pathname=""/>
-
   <!-- If you want to use mysql database, comment out previous jdbc resource,
-       and uncomment this one.
+       and uncomment this one. You will also have to customize your
+       entityengine.xml. -->
+
+  <!--
 
   <Resource name="jdbc/JiraDS" auth="Container" type="javax.sql.DataSource"
     username="jirauser"
@@ -32,5 +29,16 @@
     validationQuery="select 1" />
 
     -->
+
+  <!-- You realy do not want to edit anythong below this line. -->
+
+  <Resource
+    name="UserTransaction"
+    auth="Container"
+    type="javax.transaction.UserTransaction"
+    factory="org.objectweb.jotm.UserTransactionFactory"
+    jotm.timeout="60"/>
+
+  <Manager pathname=""/>
 
 </Context>
