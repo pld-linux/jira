@@ -5,7 +5,7 @@
 Summary:	JIRA bug and issue tracker
 Name:		jira-enterprise
 Version:	3.13.3
-Release:	0.3
+Release:	0.4
 License:	Proprietary, not distributable
 Group:		Networking/Daemons/Java/Servlets
 Source0:	http://www.atlassian.com/software/jira/downloads/binary/atlassian-%{name}-%{version}.tar.gz
@@ -15,7 +15,8 @@ Source1:	http://www.atlassian.com/software/jira/docs/servers/jars/v1/jira-jars-t
 # NoSource1-md5:	0c1184bc77a55cb09c3cd1a66ca06b4f
 NoSource:	1
 Source2:	%{name}-context.xml
-Source3:	%{name}-README.PLD
+Source3:	%{name}-entityengine.xml
+Source4:	%{name}-README.PLD
 Patch0:		%{name}-log4j-properties.patch
 URL:		http://www.atlassian.com/software/jira/default.jsp
 BuildRequires:	jpackage-utils
@@ -38,7 +39,8 @@ you can customise to match to your business processes.
 %setup -q -n atlassian-%{name}-%{version} -a1
 %patch0 -p1
 
-cp %{SOURCE3} README.PLD
+cp %{SOURCE3} edit-webapp/WEB-INF/classes/entityengine.xml
+cp %{SOURCE4} README.PLD
 
 %build
 %ant compile
@@ -54,7 +56,9 @@ install -d $RPM_BUILD_ROOT{%{_sysconfdir}/jira,%{_sharedstatedir}/tomcat/conf/Ca
 install %{SOURCE2} $RPM_BUILD_ROOT%{_sharedstatedir}/tomcat/conf/Catalina/localhost/jira.xml
 ln -s %{_sharedstatedir}/tomcat/conf/Catalina/localhost/jira.xml $RPM_BUILD_ROOT%{_sysconfdir}/jira/tomcat-context.xml
 mv $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/log4j.properties $RPM_BUILD_ROOT%{_sysconfdir}/jira/log4j.properties
+mv $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/entityengine.xml $RPM_BUILD_ROOT%{_sysconfdir}/jira/entityengine.xml
 ln -s %{_sysconfdir}/jira/log4j.properties $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/log4j.properties
+ln -s %{_sysconfdir}/jira/entityengine.xml $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/entityengine.xml
 
 # libraries missing in tomcat 5.5
 install -d $RPM_BUILD_ROOT%{_datadir}/tomcat/common/lib
@@ -70,6 +74,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/jira
 %dir %{_sysconfdir}/jira
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/jira/log4j.properties
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/jira/entityengine.xml
 %{_sysconfdir}/jira/tomcat-context.xml
 %config(noreplace) %verify(not md5 mtime size) %attr(2775,root,tomcat) %{_sharedstatedir}/tomcat/conf/Catalina/localhost/jira.xml
 %attr(2775,root,servlet) %dir %{_sharedstatedir}/jira
