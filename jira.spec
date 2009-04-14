@@ -71,6 +71,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/jira
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/jira/log4j.properties
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/jira/tomcat-context.xml
+%{_sharedstatedir}/tomcat/conf/Catalina/localhost/jira.xml
 %attr(2775,root,servlet) %dir %{_sharedstatedir}/jira
 %attr(2775,root,servlet) %dir %{_sharedstatedir}/jira/jiradb
 %attr(2775,root,servlet) %dir %{_sharedstatedir}/jira/index
