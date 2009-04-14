@@ -16,7 +16,15 @@
   
   <!-- If you want to use mysql database, comment out previous jdbc resource,
        and uncomment this one. You will also have to customize your
-       entityengine.xml. -->
+       entityengine.xml.
+
+       Make sure that mysql listens on TCP socket, because java do not know
+       how to use UNIX sockets. If you are not sure if mysql is configured
+       correctly, try to connect to it with the following command:
+       $ mysq -h127.0.0.1 -ujirausername -pjirapassword jiradb
+       Note 127.0.0.1, not localhost, which is resolved to UNIX socke path by
+       mysql client.
+    -->
 
   <!--
 
