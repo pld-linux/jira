@@ -5,7 +5,7 @@
 Summary:	JIRA bug and issue tracker
 Name:		jira-enterprise
 Version:	3.13.3
-Release:	0.1
+Release:	0.2
 License:	Proprietary, not distributable
 Group:		Networking/Daemons/Java/Servlets
 Source0:	http://www.atlassian.com/software/jira/downloads/binary/atlassian-%{name}-%{version}.tar.gz
@@ -16,6 +16,7 @@ Source1:	http://www.atlassian.com/software/jira/docs/servers/jars/v1/jira-jars-t
 NoSource:	1
 Source2:	%{name}-context.xml
 Source3:	%{name}-README.PLD
+Patch0:		%{name}-log4j-properties.patch
 URL:		http://www.atlassian.com/software/jira/default.jsp
 BuildRequires:	jpackage-utils
 BuildRequires:	rpm-javaprov
@@ -34,7 +35,8 @@ More than just an issue tracker, JIRA is an extensible platform that
 you can customise to match to your business processes.
 
 %prep
-%setup -q -n atlassian-%{name}-%{version} -a 1
+%setup -q -n atlassian-%{name}-%{version} -a1
+%patch0 -p1
 
 cp %{SOURCE3} README.PLD
 
@@ -43,10 +45,16 @@ cp %{SOURCE3} README.PLD
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sysconfdir}/jira,%{_datadir},%{_sharedstatedir}/tomcat/conf/Catalina/localhost}
+install -d $RPM_BUILD_ROOT{%{_datadir},/var/log/jira}
 install -d $RPM_BUILD_ROOT%{_sharedstatedir}/jira/{jiradb,index,attachments,backups}
-install %{SOURCE2} $RPM_BUILD_ROOT%{_sharedstatedir}/tomcat/conf/Catalina/localhost/jira.xml
 cp -a tmp/build/war $RPM_BUILD_ROOT%{_datadir}/jira
+
+# configuration
+install -d $RPM_BUILD_ROOT{%{_sysconfdir}/jira,%{_sharedstatedir}/tomcat/conf/Catalina/localhost}
+install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/jira/tomcat-context.xml
+ln -s %{_sysconfdir}/jira/tomcat-context.xml $RPM_BUILD_ROOT%{_sharedstatedir}/tomcat/conf/Catalina/localhost/jira.xml 
+mv $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/log4j.properties $RPM_BUILD_ROOT%{_sysconfdir}/jira/log4j.properties
+ln -s %{_sysconfdir}/jira/log4j.properties $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/log4j.properties
 
 # libraries missing in tomcat 5.5
 install -d $RPM_BUILD_ROOT%{_datadir}/tomcat/common/lib
@@ -57,15 +65,17 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%dir %{_sysconfdir}/jira
 # do not make this file writeable by tomcat. We do not want to allow user to
 # undeploy this app via tomcat manager.
-%config(noreplace) %{_sharedstatedir}/tomcat/conf/Catalina/localhost/jira.xml
 %{_datadir}/jira
+%dir %{_sysconfdir}/jira
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/jira/log4j.properties
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/jira/tomcat-context.xml
 %attr(2775,root,servlet) %dir %{_sharedstatedir}/jira
 %attr(2775,root,servlet) %dir %{_sharedstatedir}/jira/jiradb
 %attr(2775,root,servlet) %dir %{_sharedstatedir}/jira/index
 %attr(2775,root,servlet) %dir %{_sharedstatedir}/jira/attachments
 %attr(2775,root,servlet) %dir %{_sharedstatedir}/jira/backups
+%attr(2775,root,servlet) %dir /var/log/jira
 %{_datadir}/tomcat/common/lib/*.jar
 %doc licenses/csv.license README.PLD
