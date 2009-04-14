@@ -5,7 +5,7 @@
 Summary:	JIRA bug and issue tracker
 Name:		jira-enterprise
 Version:	3.13.3
-Release:	0.4
+Release:	1
 License:	Proprietary, not distributable
 Group:		Networking/Daemons/Java/Servlets
 Source0:	http://www.atlassian.com/software/jira/downloads/binary/atlassian-%{name}-%{version}.tar.gz
@@ -57,8 +57,10 @@ install %{SOURCE2} $RPM_BUILD_ROOT%{_sharedstatedir}/tomcat/conf/Catalina/localh
 ln -s %{_sharedstatedir}/tomcat/conf/Catalina/localhost/jira.xml $RPM_BUILD_ROOT%{_sysconfdir}/jira/tomcat-context.xml
 mv $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/log4j.properties $RPM_BUILD_ROOT%{_sysconfdir}/jira/log4j.properties
 mv $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/entityengine.xml $RPM_BUILD_ROOT%{_sysconfdir}/jira/entityengine.xml
+mv $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/osuser.xml $RPM_BUILD_ROOT%{_sysconfdir}/jira/osuser.xml
 ln -s %{_sysconfdir}/jira/log4j.properties $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/log4j.properties
 ln -s %{_sysconfdir}/jira/entityengine.xml $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/entityengine.xml
+ln -s %{_sysconfdir}/jira/osuser.xml $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/osuser.xml
 
 # libraries missing in tomcat 5.5
 install -d $RPM_BUILD_ROOT%{_datadir}/tomcat/common/lib
@@ -75,6 +77,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/jira
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/jira/log4j.properties
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/jira/entityengine.xml
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/jira/osuser.xml
 %{_sysconfdir}/jira/tomcat-context.xml
 %config(noreplace) %verify(not md5 mtime size) %attr(2775,root,tomcat) %{_sharedstatedir}/tomcat/conf/Catalina/localhost/jira.xml
 %attr(2775,root,servlet) %dir %{_sharedstatedir}/jira
