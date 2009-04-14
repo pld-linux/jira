@@ -5,7 +5,7 @@
  
  log4j.appender.filelog=org.apache.log4j.RollingFileAppender
 -log4j.appender.filelog.File=atlassian-jira.log
-+log4j.appender.filelog.File=/var/lib/jira/atlassian-jira.log
++log4j.appender.filelog.File=/var/log/jira/atlassian-jira.log
  log4j.appender.filelog.MaxFileSize=20480KB
  log4j.appender.filelog.MaxBackupIndex=5
  log4j.appender.filelog.layout=org.apache.log4j.PatternLayout
