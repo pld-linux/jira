@@ -4,14 +4,17 @@
 %include	/usr/lib/rpm/macros.java
 Summary:	JIRA bug and issue tracker
 Name:		jira-enterprise
-Version:	3.13.3
+Version:	3.13.4
 Release:	1
 License:	Proprietary, not distributable
 Group:		Networking/Daemons/Java/Servlets
-Source0:	http://www.atlassian.com/software/jira/downloads/binary/atlassian-%{name}-%{version}.tar.gz
-# NoSource0-md5:	9810796dcf4331218c3874174c9dbbee
+# Sources:
+# http://www.atlassian.com/software/jira/downloads/binary/atlassian-%{name}-%{version}.tar.gz
+# http://www.atlassian.com/software/jira/docs/servers/jars/v1/jira-jars-tomcat5.zip
+Source0:	atlassian-%{name}-%{version}.tar.gz
+# NoSource0-md5:	162f027dae43b5b6ef1ad08b3365f7e8
 NoSource:	0
-Source1:	http://www.atlassian.com/software/jira/docs/servers/jars/v1/jira-jars-tomcat5.zip
+Source1:	jira-jars-tomcat5.zip
 # NoSource1-md5:	0c1184bc77a55cb09c3cd1a66ca06b4f
 NoSource:	1
 Source2:	%{name}-context.xml
