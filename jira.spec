@@ -5,7 +5,7 @@
 Summary:	JIRA bug and issue tracker
 Name:		jira-enterprise
 Version:	3.13.4
-Release:	1
+Release:	2
 License:	Proprietary, not distributable
 Group:		Networking/Daemons/Java/Servlets
 # Sources:
@@ -26,7 +26,7 @@ BuildRequires:	jpackage-utils
 BuildRequires:	rpm-javaprov
 BuildRequires:	rpmbuild(macros) >= 1.300
 Requires:	jpackage-utils
-Requires:	tomcat
+Requires:	tomcat >= 0:6.0.20-2
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -66,8 +66,7 @@ ln -s %{_sysconfdir}/jira/entityengine.xml $RPM_BUILD_ROOT%{_datadir}/jira/WEB-I
 ln -s %{_sysconfdir}/jira/osuser.xml $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/osuser.xml
 
 # libraries missing in tomcat 5.5
-install -d $RPM_BUILD_ROOT%{_datadir}/tomcat/common/lib
-cp -a jira-jars-tomcat5/* $RPM_BUILD_ROOT%{_datadir}/tomcat/common/lib
+cp -a jira-jars-tomcat5/* $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/lib
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -89,5 +88,4 @@ rm -rf $RPM_BUILD_ROOT
 %attr(2775,root,servlet) %dir %{_sharedstatedir}/jira/attachments
 %attr(2775,root,servlet) %dir %{_sharedstatedir}/jira/backups
 %attr(2775,root,servlet) %dir /var/log/jira
-%{_datadir}/tomcat/common/lib/*.jar
 %doc licenses/csv.license README.PLD
