@@ -5,7 +5,7 @@
 Summary:	JIRA bug and issue tracker
 Name:		jira-enterprise
 Version:	3.13.4
-Release:	2
+Release:	3
 License:	Proprietary, not distributable
 Group:		Networking/Daemons/Java/Servlets
 # Sources:
@@ -65,8 +65,10 @@ ln -s %{_sysconfdir}/jira/log4j.properties $RPM_BUILD_ROOT%{_datadir}/jira/WEB-I
 ln -s %{_sysconfdir}/jira/entityengine.xml $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/entityengine.xml
 ln -s %{_sysconfdir}/jira/osuser.xml $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/osuser.xml
 
-# libraries missing in tomcat 5.5
+# some additional libraries
+install -d $RPM_BUILD_ROOT%{_datadir}/tomcat/lib
 cp -a jira-jars-tomcat5/* $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/lib
+ln -s %{_datadir}/jira/WEB-INF/lib/hsqldb-*.jar $RPM_BUILD_ROOT%{_datadir}/tomcat/lib/hsqldb.jar
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -82,6 +84,7 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/jira/osuser.xml
 %{_sysconfdir}/jira/tomcat-context.xml
 %config(noreplace) %verify(not md5 mtime size) %attr(2775,root,tomcat) %{_sharedstatedir}/tomcat/conf/Catalina/localhost/jira.xml
+%{_datadir}/tomcat/lib/*jar
 %attr(2775,root,servlet) %dir %{_sharedstatedir}/jira
 %attr(2775,root,servlet) %dir %{_sharedstatedir}/jira/jiradb
 %attr(2775,root,servlet) %dir %{_sharedstatedir}/jira/index
