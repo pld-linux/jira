@@ -27,6 +27,7 @@ BuildRequires:	rpm-javaprov
 BuildRequires:	rpmbuild(macros) >= 1.300
 Requires:	jpackage-utils
 Requires:	tomcat
+Conflicts:	tomcat >= 6
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
