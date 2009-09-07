@@ -1,11 +1,16 @@
 # TODO:
 # - ask atlassian for permission to redistribute it.
 # - ERROR: Class version could not be extracted from /home/z/tmp/jira-enterprise-3.13.3-root-z/usr/share/jira/WEB-INF/classes/com/atlassian/jira/servlet/CaptchaService.class
+# NOTE:
+# - It does not work. Tomcat6 is unable to compile these JSPs. Prints some
+#   JDT-related errors. See catalina.out for details.  Use TOMCAT-5_5 branch,
+#   with tomcat 5.5.
+
 %include	/usr/lib/rpm/macros.java
 Summary:	JIRA bug and issue tracker
 Name:		jira-enterprise
 Version:	3.13.4
-Release:	3
+Release:	3.1
 License:	Proprietary, not distributable
 Group:		Networking/Daemons/Java/Servlets
 # Sources:
