@@ -68,6 +68,7 @@ ln -s %{_sharedstatedir}/tomcat/conf/Catalina/localhost/jira.xml $RPM_BUILD_ROOT
 mv $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/log4j.properties $RPM_BUILD_ROOT%{_sysconfdir}/jira/log4j.properties
 mv $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/entityengine.xml $RPM_BUILD_ROOT%{_sysconfdir}/jira/entityengine.xml
 mv $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/osuser.xml $RPM_BUILD_ROOT%{_sysconfdir}/jira/osuser.xml
+ln -s %{_sysconfdir}/jira/jira-application.properties $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/jira-application.properties
 ln -s %{_sysconfdir}/jira/log4j.properties $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/log4j.properties
 ln -s %{_sysconfdir}/jira/entityengine.xml $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/entityengine.xml
 ln -s %{_sysconfdir}/jira/osuser.xml $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/osuser.xml
@@ -86,6 +87,7 @@ rm -rf $RPM_BUILD_ROOT
 # undeploy this app via tomcat manager.
 %{_datadir}/jira
 %dir %{_sysconfdir}/jira
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/jira/jira-application.properties
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/jira/log4j.properties
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/jira/entityengine.xml
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/jira/osuser.xml
