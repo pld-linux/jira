@@ -9,29 +9,30 @@
 %include	/usr/lib/rpm/macros.java
 Summary:	JIRA bug and issue tracker
 Name:		jira-enterprise
-Version:	3.13.4
-Release:	3.1
+Version:	4.0
+Release:	1
 License:	Proprietary, not distributable
 Group:		Networking/Daemons/Java/Servlets
 # Sources:
 # http://www.atlassian.com/software/jira/downloads/binary/atlassian-%{name}-%{version}.tar.gz
 # http://www.atlassian.com/software/jira/docs/servers/jars/v1/jira-jars-tomcat5.zip
 Source0:	atlassian-%{name}-%{version}.tar.gz
-# NoSource0-md5:	162f027dae43b5b6ef1ad08b3365f7e8
+# NoSource0-md5:	173689228807247d9be56a0a0e8e1590
 NoSource:	0
 Source1:	jira-jars-tomcat5.zip
 # NoSource1-md5:	0c1184bc77a55cb09c3cd1a66ca06b4f
 NoSource:	1
 Source2:	%{name}-context.xml
 Source3:	%{name}-entityengine.xml
-Source4:	%{name}-README.PLD
+Source4:	%{name}-application.properties
+Source5:	%{name}-README.PLD
 Patch0:		%{name}-log4j-properties.patch
 URL:		http://www.atlassian.com/software/jira/default.jsp
 BuildRequires:	jpackage-utils
 BuildRequires:	rpm-javaprov
 BuildRequires:	rpmbuild(macros) >= 1.300
 Requires:	jpackage-utils
-Requires:	tomcat >= 0:6.0.20-2
+Requires:	tomcat >= 0:6.0.20-3
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -48,7 +49,8 @@ you can customise to match to your business processes.
 %patch0 -p1
 
 cp %{SOURCE3} edit-webapp/WEB-INF/classes/entityengine.xml
-cp %{SOURCE4} README.PLD
+cp %{SOURCE4} edit-webapp/WEB-INF/classes/jira-application.properties
+cp %{SOURCE5} README.PLD
 
 %build
 %ant compile
