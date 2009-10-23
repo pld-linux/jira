@@ -1,10 +1,5 @@
 # TODO:
 # - ask atlassian for permission to redistribute it.
-# - ERROR: Class version could not be extracted from /home/z/tmp/jira-enterprise-3.13.3-root-z/usr/share/jira/WEB-INF/classes/com/atlassian/jira/servlet/CaptchaService.class
-# NOTE:
-# - It does not work. Tomcat6 is unable to compile these JSPs. Prints some
-#   JDT-related errors. See catalina.out for details.  Use TOMCAT-5_5 branch,
-#   with tomcat 5.5.
 
 %include	/usr/lib/rpm/macros.java
 Summary:	JIRA bug and issue tracker
@@ -31,7 +26,7 @@ BuildRequires:	jpackage-utils
 BuildRequires:	rpm-javaprov
 BuildRequires:	rpmbuild(macros) >= 1.300
 Requires:	jpackage-utils
-Requires:	tomcat >= 0:6.0.20-3
+Requires:	tomcat >= 0:6.0.20-4
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
