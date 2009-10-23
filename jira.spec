@@ -26,7 +26,6 @@ Source2:	%{name}-context.xml
 Source3:	%{name}-entityengine.xml
 Source4:	%{name}-application.properties
 Source5:	%{name}-README.PLD
-Patch0:		%{name}-log4j-properties.patch
 URL:		http://www.atlassian.com/software/jira/default.jsp
 BuildRequires:	jpackage-utils
 BuildRequires:	rpm-javaprov
@@ -46,7 +45,9 @@ you can customise to match to your business processes.
 
 %prep
 %setup -q -n atlassian-%{name}-%{version} -a1
-%patch0 -p1
+
+# set paths for logs
+sed -i 's,^\(log4j\.appender\.[a-z]*\.File\)=\(.*\)$,\1=/var/log/jira/\2,' webapp/WEB-INF/classes/log4j.properties
 
 cp %{SOURCE3} edit-webapp/WEB-INF/classes/entityengine.xml
 cp %{SOURCE4} edit-webapp/WEB-INF/classes/jira-application.properties
