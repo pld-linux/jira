@@ -26,8 +26,8 @@ BuildRequires:	jpackage-utils
 BuildRequires:	rpm-javaprov
 BuildRequires:	rpmbuild(macros) >= 1.300
 Requires:	jpackage-utils
-Requires:	tomcat >= 0:6.0.20-4
 Requires:	jre-X11
+Requires:	tomcat >= 0:6.0.20-4
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -74,7 +74,8 @@ ln -s %{_sysconfdir}/jira/osuser.xml $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/cla
 # some additional libraries
 install -d $RPM_BUILD_ROOT%{_datadir}/tomcat/lib
 cp -a jira-jars-tomcat5/* $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/lib
-ln -s %{_datadir}/jira/WEB-INF/lib/hsqldb-*.jar $RPM_BUILD_ROOT%{_datadir}/tomcat/lib/hsqldb.jar
+hsqldbfilename=$(basename $(ls $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/lib/hsql*jar))
+ln -s %{_datadir}/jira/WEB-INF/lib/$hsqldbfilename $RPM_BUILD_ROOT%{_datadir}/tomcat/lib/hsqldb.jar
 
 %clean
 rm -rf $RPM_BUILD_ROOT
