@@ -60,7 +60,7 @@ cp -a tmp/build/war $RPM_BUILD_ROOT%{_datadir}/jira
 
 # configuration
 install -d $RPM_BUILD_ROOT{%{_sysconfdir}/jira,%{_sharedstatedir}/tomcat/conf/Catalina/localhost}
-install %{SOURCE2} $RPM_BUILD_ROOT%{_sharedstatedir}/jira/tomcat-context.xml
+install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/jira/tomcat-context.xml
 ln -s %{_sysconfdir}/jira/tomcat-context.xml $RPM_BUILD_ROOT%{_sharedstatedir}/tomcat/conf/Catalina/localhost/jira.xml
 mv $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/jira-application.properties $RPM_BUILD_ROOT%{_sysconfdir}/jira/jira-application.properties
 mv $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/log4j.properties $RPM_BUILD_ROOT%{_sysconfdir}/jira/log4j.properties
