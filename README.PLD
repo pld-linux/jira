@@ -15,14 +15,31 @@ wget http://www.atlassian.com/software/jira/docs/servers/jars/v1/jira-jars-tomca
 
 rpm -Uvh rpm/RPMS/jira-enterprise*
 
-3. if you are upgrading jira, you must restart it:
+3. configure CATALINA_OPTS:
+
+add following parameters to CATALINA_OPTS environment variable in
+/etc/sysconfig/tomcat:
+-Dmail.mime.decodeparameters=true -Dorg.apache.jasper.runtime.BodyContentImpl.LIMIT_BUFFER=true
+
+You should also increase memory limits for tomcat. These are example values
+from CATALINA_OPTS that works for me (tomcat running confluence and tomcat for
+~60 users):
+-Xmx768M -XX:MaxPermSize=512m -XX:PermSize=256m
+
+see:
+http://confluence.atlassian.com/display/JIRA/__setting_mail.mime.decodeparameters?clicked=jirahelp
+and
+http://confluence.atlassian.com/display/JIRA/Installing+JIRA+on+Tomcat+6.0
+for more details.
+
+4. if you are upgrading jira, you must restart it:
 
 service tomcat restart
 OR
 Point your browser to http://server:8080/manager/html
 and restart jira application.
 
-4. configure jira
+5. configure jira
 
 Configure jira database in /etc/jira/tomcat-context.xml and
 /etc/jira/entityengine.xml. Default HSQLDB works out-of-the-box with
