@@ -1,7 +1,11 @@
 # TODO:
 # - ask atlassian for permission to redistribute it.
+# - package plugin-timesheet as separate spec?
 
 %include	/usr/lib/rpm/macros.java
+
+%define		plugintimesheetver	1.9
+
 Summary:	JIRA bug and issue tracker
 Name:		jira-enterprise
 Version:	4.0
@@ -9,8 +13,9 @@ Release:	1
 License:	Proprietary, not distributable
 Group:		Networking/Daemons/Java/Servlets
 # Sources:
-# http://www.atlassian.com/software/jira/downloads/binary/atlassian-%{name}-%{version}.tar.gz
-# http://www.atlassian.com/software/jira/docs/servers/jars/v1/jira-jars-tomcat5.zip
+# wget -c http://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-enterprise-4.0.tar.gz
+# wget -c http://www.atlassian.com/software/jira/docs/servers/jars/v1/jira-jars-tomcat5.zip
+# wget -c http://svn.atlassian.com/svn/public/contrib/jira/jira-timesheet-plugin/jars/atlassian-jira-plugin-timesheet-1.9.jar
 Source0:	atlassian-%{name}-%{version}.tar.gz
 # NoSource0-md5:	173689228807247d9be56a0a0e8e1590
 NoSource:	0
@@ -21,6 +26,11 @@ Source2:	%{name}-context.xml
 Source3:	%{name}-entityengine.xml
 Source4:	%{name}-application.properties
 Source5:	%{name}-README.PLD
+# This one is distributable (even BSD licensed), but it make no sense to store
+# it in DF unles Source0 and Source1 are distributable.
+Source10:	atlassian-jira-plugin-timesheet-%{plugintimesheetver}.jar
+# NoSource10-md5:	c02f5d0e5300bffc966f79778d08e7eb
+NoSource:	10
 URL:		http://www.atlassian.com/software/jira/default.jsp
 BuildRequires:	jpackage-utils
 BuildRequires:	rpm-javaprov
@@ -38,6 +48,16 @@ tickets to project tasks and change requests.
 
 More than just an issue tracker, JIRA is an extensible platform that
 you can customise to match to your business processes.
+
+%package plugin-timesheet
+Summary:	JIRA Timesheet report and portlet
+License:	BSD
+Group:		Libraries/Java
+URL:		http://confluence.atlassian.com/display/JIRAEXT/Timesheet+report+and+portlet
+Requires:	%{name} = %{version}-%{release}
+
+%description plugin-timesheet
+JIRA Timesheet report and portlet.
 
 %prep
 %setup -q -n atlassian-%{name}-%{version} -a1
@@ -77,12 +97,16 @@ cp -a jira-jars-tomcat5/* $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/lib
 hsqldbfilename=$(basename $(ls $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/lib/hsql*jar))
 ln -s %{_datadir}/jira/WEB-INF/lib/$hsqldbfilename $RPM_BUILD_ROOT%{_datadir}/tomcat/lib/hsqldb.jar
 
+# plugins
+install %{SOURCE10} $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/lib/atlassian-jira-plugin-timesheet-%{plugintimesheetver}.jar
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
 %{_datadir}/jira
+%exclude %{_datadir}/jira/WEB-INF/lib/atlassian-jira-plugin-timesheet-%{plugintimesheetver}.jar
 %dir %attr(750,root,tomcat) %{_sysconfdir}/jira
 %config(noreplace) %verify(not md5 mtime size) %attr(640,root,tomcat) %{_sysconfdir}/jira/*
 %{_sharedstatedir}/tomcat/conf/Catalina/localhost/jira.xml
@@ -94,3 +118,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(2775,root,servlet) %dir %{_sharedstatedir}/jira/backups
 %attr(2775,root,servlet) %dir /var/log/jira
 %doc licenses/csv.license README.PLD
+
+%files plugin-timesheet
+%defattr(644,root,root,755)
+%{_datadir}/jira/WEB-INF/lib/atlassian-jira-plugin-timesheet-%{plugintimesheetver}.jar
