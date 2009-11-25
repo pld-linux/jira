@@ -6,6 +6,7 @@
 
 %define		plugintimesheetver	1.9
 %define		pluginsubversionver	0.10.5.2
+%define		pluginemailver		1.7
 
 Summary:	JIRA bug and issue tracker
 Name:		jira-enterprise
@@ -18,6 +19,7 @@ Group:		Networking/Daemons/Java/Servlets
 # wget -c http://www.atlassian.com/software/jira/docs/servers/jars/v1/jira-jars-tomcat5.zip
 # wget -c http://svn.atlassian.com/svn/public/contrib/jira/jira-timesheet-plugin/jars/atlassian-jira-plugin-timesheet-1.9.jar
 # wget -c http://maven.atlassian.com/contrib/com/atlassian/jira/plugin/ext/subversion/atlassian-jira-subversion-plugin/0.10.5.2/atlassian-jira-subversion-plugin-0.10.5.2-distribution.zip
+# wget -c http://confluence.atlassian.com/download/attachments/124027052/email-this-issue-plugin-1.7.jar
 Source0:	atlassian-%{name}-%{version}.tar.gz
 # NoSource0-md5:	173689228807247d9be56a0a0e8e1590
 NoSource:	0
@@ -36,6 +38,9 @@ NoSource:	10
 Source11:	atlassian-jira-subversion-plugin-%{pluginsubversionver}-distribution.zip
 # NoSource11-md5:	5e220049093be0f732a174e7955aa13d
 NoSource:	11
+Source12:	email-this-issue-plugin-%{pluginemailver}.jar
+# NoSource12-md5:	a55c9744943594026acdf9f215837f6a
+NoSource:	12
 URL:		http://www.atlassian.com/software/jira/default.jsp
 BuildRequires:	jpackage-utils
 BuildRequires:	rpm-javaprov
@@ -65,17 +70,48 @@ Requires:	%{name} = %{version}-%{release}
 JIRA Timesheet report and portlet.
 
 %package plugin-subversion
-Summary:	JIRA Subversion Plugin 
+Summary:	JIRA Subversion Plugin
 License:	BSD
 Group:		Libraries/Java
 URL:		http://confluence.atlassian.com/display/JIRAEXT/JIRA+Subversion+plugin
 Requires:	%{name} = %{version}-%{release}
 
 %description plugin-subversion
-A plugin to integrate JIRA with Subversion.This plugin displays Subversion
-commit info in a tab on the associated JIRA issue. To link a commit to a JIRA
-issue, the commit's text must contain the issue key (eg. "This commit fixes
-TST-123"). 
+A plugin to integrate JIRA with Subversion.This plugin displays
+Subversion commit info in a tab on the associated JIRA issue. To link
+a commit to a JIRA issue, the commit's text must contain the issue key
+(eg. "This commit fixes TST-123").
+
+%package plugin-email-this-issue
+Summary:	JIRA "Email this issue" plugin
+License:	BSD
+Group:		Libraries/Java
+URL:		https://plugins.atlassian.com/plugin/details/4977
+Requires:	%{name} = %{version}-%{release}
+
+%description plugin-email-this-issue
+This plugin contains an issue operation component that allows users to
+compose an email and send the issue to arbitrary recipients.
+
+Most important features are:
+
+- send email with issue details to email addresses outside JIRA,
+  assignee, reporter and watchers.
+- attach issue attachments to email
+- control who can invoke the operation through a project role
+- text and html email format are supported, email body understands
+  Confluence wiki markup
+- email template can be customized per project and issue type
+- a comment is created reflecting the event of sending an email (body,
+  recipients, etc) - see below
+- i18n-enabled, the plugin can be translated, it is currently
+  available in English, German, French, Polish and Hungarian.
+- you have options like "CC to me" and "Reply to me" to receive a copy
+  of the email or to receive replies to the email.
+- email recipients are added to watchers on demand
+- recipients from custom fields and groups/project roles can be added
+- email options may be reused, i.e. there is no need to check all your
+  options every time you send an email
 
 %prep
 %setup -q -n atlassian-%{name}-%{version} -a1 -a11
@@ -123,6 +159,7 @@ cp %{SOURCE10} $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/lib/atlassian-jira-plugin
 cp atlassian-jira-subversion-plugin-*/subversion-jira-plugin.properties $RPM_BUILD_ROOT%{_sysconfdir}/jira/subversion-jira-plugin.properties
 cp atlassian-jira-subversion-plugin-*/lib/* $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/lib
 ln -s %{_sysconfdir}/jira/subversion-jira-plugin.properties $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/subversion-jira-plugin.properties
+cp %{SOURCE12} $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/lib/email-this-issue-plugin-%{pluginemailver}.jar
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -147,6 +184,7 @@ rm -rf $RPM_BUILD_ROOT
 %exclude %{_datadir}/jira/WEB-INF/lib/atlassian-jira-subversion-plugin-%{pluginsubversionver}.jar
 %exclude %{_datadir}/jira/WEB-INF/lib/svnkit-1.2.1.5297.jar
 %exclude %{_datadir}/jira/WEB-INF/lib/trilead-ssh2-build213-svnkit-1.2-patch.jar
+%exclude %{_datadir}/jira/WEB-INF/lib/email-this-issue-plugin-%{pluginemailver}.jar
 %exclude %{_datadir}/jira/WEB-INF/classes/subversion-jira-plugin.properties
 %exclude %{_sysconfdir}/jira/subversion-jira-plugin.properties
 
@@ -161,3 +199,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/jira/WEB-INF/lib/atlassian-jira-subversion-plugin-%{pluginsubversionver}.jar
 %{_datadir}/jira/WEB-INF/lib/svnkit-1.2.1.5297.jar
 %{_datadir}/jira/WEB-INF/lib/trilead-ssh2-build213-svnkit-1.2-patch.jar
+
+%files plugin-email-this-issue
+%defattr(644,root,root,755)
+%{_datadir}/jira/WEB-INF/lib/email-this-issue-plugin-%{pluginemailver}.jar
