@@ -10,7 +10,7 @@
 
 Summary:	JIRA bug and issue tracker
 Name:		jira-enterprise
-Version:	4.0
+Version:	4.0.1
 Release:	1
 License:	Proprietary, not distributable
 Group:		Networking/Daemons/Java/Servlets
@@ -21,7 +21,7 @@ Group:		Networking/Daemons/Java/Servlets
 # wget -c http://maven.atlassian.com/contrib/com/atlassian/jira/plugin/ext/subversion/atlassian-jira-subversion-plugin/0.10.5.2/atlassian-jira-subversion-plugin-0.10.5.2-distribution.zip
 # wget -c http://confluence.atlassian.com/download/attachments/124027052/email-this-issue-plugin-1.7.jar
 Source0:	atlassian-%{name}-%{version}.tar.gz
-# NoSource0-md5:	173689228807247d9be56a0a0e8e1590
+# NoSource0-md5:	c0ffb61931162a0ee937c78693c9ec58
 NoSource:	0
 Source1:	jira-jars-tomcat5.zip
 # NoSource1-md5:	0c1184bc77a55cb09c3cd1a66ca06b4f
