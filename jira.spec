@@ -142,10 +142,12 @@ mv $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/jira-application.properties $
 mv $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/log4j.properties $RPM_BUILD_ROOT%{_sysconfdir}/jira/log4j.properties
 mv $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/entityengine.xml $RPM_BUILD_ROOT%{_sysconfdir}/jira/entityengine.xml
 mv $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/osuser.xml $RPM_BUILD_ROOT%{_sysconfdir}/jira/osuser.xml
+mv $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/seraph-config.xml $RPM_BUILD_ROOT%{_sysconfdir}/jira/seraph-config.xml
 ln -s %{_sysconfdir}/jira/jira-application.properties $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/jira-application.properties
 ln -s %{_sysconfdir}/jira/log4j.properties $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/log4j.properties
 ln -s %{_sysconfdir}/jira/entityengine.xml $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/entityengine.xml
 ln -s %{_sysconfdir}/jira/osuser.xml $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/osuser.xml
+ln -s %{_sysconfdir}/jira/seraph-config.xml $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/seraph-config.xml
 
 # some additional libraries
 install -d $RPM_BUILD_ROOT%{_datadir}/tomcat/lib
