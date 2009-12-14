@@ -166,6 +166,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
+%doc licenses/csv.license README.PLD
 %{_datadir}/jira
 %dir %attr(750,root,tomcat) %{_sysconfdir}/jira
 %config(noreplace) %verify(not md5 mtime size) %attr(640,root,tomcat) %{_sysconfdir}/jira/*
@@ -177,7 +178,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(2775,root,servlet) %dir %{_sharedstatedir}/jira/attachments
 %attr(2775,root,servlet) %dir %{_sharedstatedir}/jira/backups
 %attr(2775,root,servlet) %dir /var/log/jira
-%doc licenses/csv.license README.PLD
 
 #plugins
 %exclude %{_datadir}/jira/WEB-INF/lib/atlassian-jira-plugin-timesheet-%{plugintimesheetver}.jar
