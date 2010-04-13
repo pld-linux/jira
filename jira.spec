@@ -1,6 +1,9 @@
 # TODO:
 # - ask atlassian for permission to redistribute it.
 # - package plugin-timesheet as separate spec?
+# - apply security patches:
+#   http://jira.atlassian.com/browse/JRA-20995
+#   http://jira.atlassian.com/browse/JRA-20994
 
 %include	/usr/lib/rpm/macros.java
 
