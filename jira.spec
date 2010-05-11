@@ -9,22 +9,22 @@
 
 %define		plugintimesheetver	1.9
 %define		pluginsubversionver	0.10.5.2
-%define		pluginemailver		1.7
+%define		pluginjetiver		1.8
 
 Summary:	JIRA bug and issue tracker
 Name:		jira-enterprise
-Version:	4.0.1
+Version:	4.1.1
 Release:	1
 License:	Proprietary, not distributable
 Group:		Networking/Daemons/Java/Servlets
 # Sources:
-# wget -c http://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-enterprise-4.0.tar.gz
+# wget -c http://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-enterprise-4.1.1.tar.gz
 # wget -c http://www.atlassian.com/software/jira/docs/servers/jars/v1/jira-jars-tomcat5.zip
-# wget -c http://svn.atlassian.com/svn/public/contrib/jira/jira-timesheet-plugin/jars/atlassian-jira-plugin-timesheet-1.9.jar
+# wget -c https://studio.plugins.atlassian.com/svn/TIME/jars/atlassian-jira-plugin-timesheet-1.9.jar
 # wget -c http://maven.atlassian.com/contrib/com/atlassian/jira/plugin/ext/subversion/atlassian-jira-subversion-plugin/0.10.5.2/atlassian-jira-subversion-plugin-0.10.5.2-distribution.zip
-# wget -c http://confluence.atlassian.com/download/attachments/124027052/email-this-issue-plugin-1.7.jar
+# wget -c https://studio.plugins.atlassian.com/wiki/download/attachments/2261441/email-this-issue-plugin-1.8.jar
 Source0:	atlassian-%{name}-%{version}.tar.gz
-# NoSource0-md5:	c0ffb61931162a0ee937c78693c9ec58
+# NoSource0-md5:	b23e25ec407f657cbff786b98973605a
 NoSource:	0
 Source1:	jira-jars-tomcat5.zip
 # NoSource1-md5:	0c1184bc77a55cb09c3cd1a66ca06b4f
@@ -36,13 +36,13 @@ Source5:	%{name}-README.PLD
 # Most of jira plugins are distributable (or even BSD licensed), but it make
 # no sense to store them in DF unles Source0 and Source1 are distributable.
 Source10:	atlassian-jira-plugin-timesheet-%{plugintimesheetver}.jar
-# NoSource10-md5:	c02f5d0e5300bffc966f79778d08e7eb
+# NoSource10-md5:	38d2c943b72c4d7bb3d2eba514d1df39
 NoSource:	10
 Source11:	atlassian-jira-subversion-plugin-%{pluginsubversionver}-distribution.zip
 # NoSource11-md5:	5e220049093be0f732a174e7955aa13d
 NoSource:	11
-Source12:	email-this-issue-plugin-%{pluginemailver}.jar
-# NoSource12-md5:	a55c9744943594026acdf9f215837f6a
+Source12:	email-this-issue-plugin-%{pluginjetiver}.jar
+# NoSource12-md5:	9290b62d79d257c58b5661b74dbbc4b0
 NoSource:	12
 URL:		http://www.atlassian.com/software/jira/default.jsp
 BuildRequires:	jpackage-utils
@@ -166,7 +166,7 @@ cp %{SOURCE10} $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/lib/atlassian-jira-plugin
 cp atlassian-jira-subversion-plugin-*/subversion-jira-plugin.properties $RPM_BUILD_ROOT%{_sysconfdir}/jira/subversion-jira-plugin.properties
 cp atlassian-jira-subversion-plugin-*/lib/* $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/lib
 ln -s %{_sysconfdir}/jira/subversion-jira-plugin.properties $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/subversion-jira-plugin.properties
-cp %{SOURCE12} $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/lib/email-this-issue-plugin-%{pluginemailver}.jar
+cp %{SOURCE12} $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/lib/email-this-issue-plugin-%{pluginjetiver}.jar
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -191,7 +191,7 @@ rm -rf $RPM_BUILD_ROOT
 %exclude %{_datadir}/jira/WEB-INF/lib/atlassian-jira-subversion-plugin-%{pluginsubversionver}.jar
 %exclude %{_datadir}/jira/WEB-INF/lib/svnkit-1.2.1.5297.jar
 %exclude %{_datadir}/jira/WEB-INF/lib/trilead-ssh2-build213-svnkit-1.2-patch.jar
-%exclude %{_datadir}/jira/WEB-INF/lib/email-this-issue-plugin-%{pluginemailver}.jar
+%exclude %{_datadir}/jira/WEB-INF/lib/email-this-issue-plugin-%{pluginjetiver}.jar
 %exclude %{_datadir}/jira/WEB-INF/classes/subversion-jira-plugin.properties
 %exclude %{_sysconfdir}/jira/subversion-jira-plugin.properties
 
@@ -209,4 +209,4 @@ rm -rf $RPM_BUILD_ROOT
 
 %files plugin-email-this-issue
 %defattr(644,root,root,755)
-%{_datadir}/jira/WEB-INF/lib/email-this-issue-plugin-%{pluginemailver}.jar
+%{_datadir}/jira/WEB-INF/lib/email-this-issue-plugin-%{pluginjetiver}.jar
