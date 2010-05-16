@@ -45,6 +45,7 @@ URL:		http://www.atlassian.com/software/jira/default.jsp
 BuildRequires:	jpackage-utils
 BuildRequires:	rpm-javaprov
 BuildRequires:	rpmbuild(macros) >= 1.300
+BuildRequires:	unzip
 Requires:	jpackage-utils
 Requires:	jre-X11
 Requires:	tomcat >= 0:6.0.20-4
