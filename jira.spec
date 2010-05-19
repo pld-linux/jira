@@ -9,7 +9,7 @@
 %define		pluginjetiver		1.8
 
 Summary:	JIRA bug and issue tracker
-Name:		jira-enterprise
+Name:		jira
 Version:	4.1.1
 Release:	1
 License:	Proprietary, not distributable
@@ -20,10 +20,10 @@ Group:		Networking/Daemons/Java/Servlets
 # wget -c https://studio.plugins.atlassian.com/svn/TIME/jars/atlassian-jira-plugin-timesheet-1.9.jar
 # wget -c http://maven.atlassian.com/contrib/com/atlassian/jira/plugin/ext/subversion/atlassian-jira-subversion-plugin/0.10.5.2/atlassian-jira-subversion-plugin-0.10.5.2-distribution.zip
 # wget -c https://studio.plugins.atlassian.com/wiki/download/attachments/2261441/email-this-issue-plugin-1.8.jar
-Source0:	atlassian-%{name}-%{version}.tar.gz
+Source0:	atlassian-%{name}-enterprise-%{version}.tar.gz
 # NoSource0-md5:	b23e25ec407f657cbff786b98973605a
 NoSource:	0
-Source1:	jira-jars-tomcat5.zip
+Source1:	%{name}-jars-tomcat5.zip
 # NoSource1-md5:	0c1184bc77a55cb09c3cd1a66ca06b4f
 NoSource:	1
 Source2:	%{name}-context.xml
@@ -32,10 +32,10 @@ Source4:	%{name}-application.properties
 Source5:	%{name}-README.PLD
 # Most of jira plugins are distributable (or even BSD licensed), but it make
 # no sense to store them in DF unles Source0 and Source1 are distributable.
-Source10:	atlassian-jira-plugin-timesheet-%{plugintimesheetver}.jar
+Source10:	atlassian-%{name}-plugin-timesheet-%{plugintimesheetver}.jar
 # NoSource10-md5:	38d2c943b72c4d7bb3d2eba514d1df39
 NoSource:	10
-Source11:	atlassian-jira-subversion-plugin-%{pluginsubversionver}-distribution.zip
+Source11:	atlassian-%{name}-subversion-plugin-%{pluginsubversionver}-distribution.zip
 # NoSource11-md5:	5e220049093be0f732a174e7955aa13d
 NoSource:	11
 Source12:	email-this-issue-plugin-%{pluginjetiver}.jar
@@ -49,6 +49,7 @@ BuildRequires:	unzip
 Requires:	jpackage-utils
 Requires:	jre-X11
 Requires:	tomcat >= 0:6.0.20-4
+Obsoletes:	jira-enterprise
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -66,6 +67,7 @@ License:	BSD
 Group:		Libraries/Java
 URL:		http://confluence.atlassian.com/display/JIRAEXT/Timesheet+report+and+portlet
 Requires:	%{name} = %{version}-%{release}
+Obsoletes:	jira-enterprise-plugin-timesheet
 
 %description plugin-timesheet
 JIRA Timesheet report and portlet.
@@ -76,6 +78,7 @@ License:	BSD
 Group:		Libraries/Java
 URL:		http://confluence.atlassian.com/display/JIRAEXT/JIRA+Subversion+plugin
 Requires:	%{name} = %{version}-%{release}
+Obsoletes:	jira-enterprise-plugin-subversion
 
 %description plugin-subversion
 A plugin to integrate JIRA with Subversion.This plugin displays
@@ -89,6 +92,7 @@ License:	BSD
 Group:		Libraries/Java
 URL:		https://plugins.atlassian.com/plugin/details/4977
 Requires:	%{name} = %{version}-%{release}
+Obsoletes:	jira-enterprise-plugin-email-this-issue
 
 %description plugin-email-this-issue
 This plugin contains an issue operation component that allows users to
@@ -115,7 +119,7 @@ Most important features are:
   options every time you send an email
 
 %prep
-%setup -q -n atlassian-%{name}-%{version} -a1 -a11
+%setup -q -n atlassian-%{name}-enterprise-%{version} -a1 -a11
 
 mv atlassian-jira-subversion-plugin-*/README.txt README-plugin-subversion.txt
 
