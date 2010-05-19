@@ -26,10 +26,10 @@ NoSource:	0
 Source1:	%{name}-jars-tomcat5.zip
 # NoSource1-md5:	0c1184bc77a55cb09c3cd1a66ca06b4f
 NoSource:	1
-Source2:	%{name}-context.xml
-Source3:	%{name}-entityengine.xml
-Source4:	%{name}-application.properties
-Source5:	%{name}-README.PLD
+Source2:	context.xml
+Source3:	entityengine.xml
+Source4:	application.properties
+Source5:	README.PLD
 # Most of jira plugins are distributable (or even BSD licensed), but it make
 # no sense to store them in DF unles Source0 and Source1 are distributable.
 Source10:	atlassian-%{name}-plugin-timesheet-%{plugintimesheetver}.jar
