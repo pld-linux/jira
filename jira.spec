@@ -1,6 +1,16 @@
 # TODO:
-# - ask atlassian for permission to redistribute it.
 # - package plugin-timesheet as separate spec?
+# - convert to "-installer" type package?
+
+# NOTE:
+# Do not remove NoSource tags. Make sure DistFiles won't fetch JIRA sources.
+#
+# Todd Revolt from Atlassian told that:
+#   * We are free to integrate Atlassian products into PLD. So we can write
+#     installer scripts, create nosrc packages etc.
+#   * We are not permitted to redistribute their products. That mean during
+#     installation each user has to download JIRA from atlassian web page.
+# BTW: maybe just add wget http://atlassian.com/(...)tar.gz -O /dev/null to %pre?
 
 %include	/usr/lib/rpm/macros.java
 
