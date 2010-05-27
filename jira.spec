@@ -10,7 +10,18 @@
 #     installer scripts, create nosrc packages etc.
 #   * We are not permitted to redistribute their products. That mean during
 #     installation each user has to download JIRA from atlassian web page.
-# BTW: maybe just add wget http://atlassian.com/(...)tar.gz -O /dev/null to %pre?
+#
+# See Atlassian_EULA_3.0.pdf for more details.
+
+%if 0
+# Download sources manually:
+wget -c http://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-enterprise-4.1.1.tar.gz
+wget -c http://www.atlassian.com/about/licensing/Atlassian_EULA_3.0.pdf
+wget -c http://www.atlassian.com/software/jira/docs/servers/jars/v1/jira-jars-tomcat5.zip
+wget -c https://studio.plugins.atlassian.com/svn/TIME/jars/atlassian-jira-plugin-timesheet-1.9.jar
+wget -c http://maven.atlassian.com/contrib/com/atlassian/jira/plugin/ext/subversion/atlassian-jira-subversion-plugin/0.10.5.2/atlassian-jira-subversion-plugin-0.10.5.2-distribution.zip
+wget -c https://studio.plugins.atlassian.com/wiki/download/attachments/2261441/email-this-issue-plugin-1.8.jar
+%endif
 
 %include	/usr/lib/rpm/macros.java
 
@@ -24,22 +35,19 @@ Version:	4.1.1
 Release:	1
 License:	Proprietary, not distributable
 Group:		Networking/Daemons/Java/Servlets
-# Sources:
-# wget -c http://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-enterprise-4.1.1.tar.gz
-# wget -c http://www.atlassian.com/software/jira/docs/servers/jars/v1/jira-jars-tomcat5.zip
-# wget -c https://studio.plugins.atlassian.com/svn/TIME/jars/atlassian-jira-plugin-timesheet-1.9.jar
-# wget -c http://maven.atlassian.com/contrib/com/atlassian/jira/plugin/ext/subversion/atlassian-jira-subversion-plugin/0.10.5.2/atlassian-jira-subversion-plugin-0.10.5.2-distribution.zip
-# wget -c https://studio.plugins.atlassian.com/wiki/download/attachments/2261441/email-this-issue-plugin-1.8.jar
 Source0:	atlassian-%{name}-enterprise-%{version}.tar.gz
 # NoSource0-md5:	b23e25ec407f657cbff786b98973605a
 NoSource:	0
-Source1:	%{name}-jars-tomcat5.zip
-# NoSource1-md5:	0c1184bc77a55cb09c3cd1a66ca06b4f
+Source1:	Atlassian_EULA_3.0.pdf
+# NoSource1-md5:	9e87088024e3c5ee2e63a72a3e99a6cb
 NoSource:	1
-Source2:	context.xml
-Source3:	entityengine.xml
-Source4:	application.properties
-Source5:	README.PLD
+Source2:	%{name}-jars-tomcat5.zip
+# NoSource2-md5:	0c1184bc77a55cb09c3cd1a66ca06b4f
+NoSource:	2
+Source3:	context.xml
+Source4:	entityengine.xml
+Source5:	application.properties
+Source6:	README.PLD
 # Most of jira plugins are distributable (or even BSD licensed), but it make
 # no sense to store them in DF unles Source0 and Source1 are distributable.
 Source10:	atlassian-%{name}-plugin-timesheet-%{plugintimesheetver}.jar
@@ -129,16 +137,17 @@ Most important features are:
   options every time you send an email
 
 %prep
-%setup -q -n atlassian-%{name}-enterprise-%{version} -a1 -a11
+%setup -q -n atlassian-%{name}-enterprise-%{version} -a2 -a11
 
 mv atlassian-jira-subversion-plugin-*/README.txt README-plugin-subversion.txt
+cp %{SOURCE1} .
 
 # set paths for logs
 sed -i 's,^\(log4j\.appender\.[a-z]*\.File\)=\(.*\)$,\1=/var/log/jira/\2,' webapp/WEB-INF/classes/log4j.properties
 
-cp %{SOURCE3} edit-webapp/WEB-INF/classes/entityengine.xml
-cp %{SOURCE4} edit-webapp/WEB-INF/classes/jira-application.properties
-cp %{SOURCE5} README.PLD
+cp %{SOURCE4} edit-webapp/WEB-INF/classes/entityengine.xml
+cp %{SOURCE5} edit-webapp/WEB-INF/classes/jira-application.properties
+cp %{SOURCE6} README.PLD
 
 %build
 %ant compile
@@ -151,7 +160,7 @@ cp -a tmp/build/war $RPM_BUILD_ROOT%{_datadir}/jira
 
 # configuration
 install -d $RPM_BUILD_ROOT{%{_sysconfdir}/jira,%{_sharedstatedir}/tomcat/conf/Catalina/localhost}
-install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/jira/tomcat-context.xml
+install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/jira/tomcat-context.xml
 ln -s %{_sysconfdir}/jira/tomcat-context.xml $RPM_BUILD_ROOT%{_sharedstatedir}/tomcat/conf/Catalina/localhost/jira.xml
 mv $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/jira-application.properties $RPM_BUILD_ROOT%{_sysconfdir}/jira/jira-application.properties
 mv $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/log4j.properties $RPM_BUILD_ROOT%{_sysconfdir}/jira/log4j.properties
@@ -185,7 +194,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc licenses/csv.license README.PLD
+%doc licenses/csv.license README.PLD Atlassian_EULA_3.0.pdf
 %{_datadir}/jira
 %dir %attr(750,root,tomcat) %{_sysconfdir}/jira
 %config(noreplace) %verify(not md5 mtime size) %attr(640,root,tomcat) %{_sysconfdir}/jira/*
