@@ -71,6 +71,7 @@ Obsoletes:	jira-enterprise
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
+%define		pluginsdir	%{_datadir}/jira/plugins
 %description
 JIRA lets you prioritise, assign, track, report and audit your
 'issues,' whatever they may be - from software bugs and help-desk
@@ -154,9 +155,9 @@ cp %{SOURCE6} README.PLD
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_datadir},/var/log/jira}
+install -d $RPM_BUILD_ROOT{%{pluginsdir},/var/log/jira}
 install -d $RPM_BUILD_ROOT%{_sharedstatedir}/jira/{jiradb,index,attachments,backups}
-cp -a tmp/build/war $RPM_BUILD_ROOT%{_datadir}/jira
+cp -a tmp/build/war/* $RPM_BUILD_ROOT%{_datadir}/jira
 
 # configuration
 install -d $RPM_BUILD_ROOT{%{_sysconfdir}/jira,%{_sharedstatedir}/tomcat/conf/Catalina/localhost}
