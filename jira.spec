@@ -17,6 +17,7 @@
 wget -c http://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-enterprise-4.1.1.tar.gz
 wget -c http://www.atlassian.com/about/licensing/Atlassian_EULA_3.0.pdf
 wget -c http://www.atlassian.com/software/jira/docs/servers/jars/v1/jira-jars-tomcat5.zip
+wget -c http://repository.atlassian.com/org.apache.felix/jars/org.apache.felix.main-2.0.5.jar
 %endif
 
 %include	/usr/lib/rpm/macros.java
@@ -24,7 +25,7 @@ wget -c http://www.atlassian.com/software/jira/docs/servers/jars/v1/jira-jars-to
 Summary:	JIRA bug and issue tracker
 Name:		jira
 Version:	4.1.1
-Release:	2
+Release:	3
 License:	Proprietary, not distributable
 Group:		Networking/Daemons/Java/Servlets
 Source0:	atlassian-%{name}-enterprise-%{version}.tar.gz
@@ -40,6 +41,9 @@ Source3:	context.xml
 Source4:	entityengine.xml
 Source5:	application.properties
 Source6:	README.PLD
+Source7:    org.apache.felix.main-2.0.5.jar
+# NoSource4-md5:    edfbdb9fd59aeb21022391e2934f75c0
+NoSource:   7
 URL:		http://www.atlassian.com/software/jira/default.jsp
 BuildRequires:	jpackage-utils
 BuildRequires:	rpm-javaprov
@@ -65,6 +69,10 @@ you can customise to match to your business processes.
 %setup -q -n atlassian-%{name}-enterprise-%{version} -a2
 
 cp %{SOURCE1} .
+
+# http://confluence.atlassian.com/pages/viewpage.action?pageId=208962752
+find -name 'org.apache.felix.main*.jar' | xargs rm
+cp %{SOURCE7} webapp/WEB-INF/lib
 
 # set paths for logs
 sed -i 's,^\(log4j\.appender\.[a-z]*\.File\)=\(.*\)$,\1=/var/log/jira/\2,' webapp/WEB-INF/classes/log4j.properties
