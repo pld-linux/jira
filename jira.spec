@@ -14,7 +14,7 @@
 
 %if 0
 # Download sources manually:
-wget -c http://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-enterprise-4.1.1.tar.gz
+wget -c http://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-enterprise-4.1.2.tar.gz
 wget -c http://www.atlassian.com/about/licensing/Atlassian_EULA_3.0.pdf
 wget -c http://www.atlassian.com/software/jira/docs/servers/jars/v1/jira-jars-tomcat5.zip
 wget -c http://repository.atlassian.com/org.apache.felix/jars/org.apache.felix.main-2.0.5.jar
@@ -24,12 +24,12 @@ wget -c http://repository.atlassian.com/org.apache.felix/jars/org.apache.felix.m
 
 Summary:	JIRA bug and issue tracker
 Name:		jira
-Version:	4.1.1
-Release:	3
+Version:	4.1.2
+Release:	1
 License:	Proprietary, not distributable
 Group:		Networking/Daemons/Java/Servlets
 Source0:	atlassian-%{name}-enterprise-%{version}.tar.gz
-# NoSource0-md5:	b23e25ec407f657cbff786b98973605a
+# NoSource0-md5:	d17425350cf1bbef6ca93c178f16a04f
 NoSource:	0
 Source1:	Atlassian_EULA_3.0.pdf
 # NoSource1-md5:	9e87088024e3c5ee2e63a72a3e99a6cb
@@ -42,7 +42,7 @@ Source4:	entityengine.xml
 Source5:	application.properties
 Source6:	README.PLD
 Source7:    org.apache.felix.main-2.0.5.jar
-# NoSource4-md5:    edfbdb9fd59aeb21022391e2934f75c0
+# NoSource7-md5:	edfbdb9fd59aeb21022391e2934f75c0
 NoSource:   7
 URL:		http://www.atlassian.com/software/jira/default.jsp
 BuildRequires:	jpackage-utils
