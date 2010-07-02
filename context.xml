@@ -38,6 +38,21 @@
 
     -->
 
+	<!-- Example mail session definition for Jira. You can refer it in jira
+	   configuration as JNDI: java:comp/env/mail/JiraMS
+	
+	   Alternatively you can configure mail server via web interface.
+
+       TODO: how to specify SMTP username and password here?
+	-->
+
+  <!--
+
+  <Resource name="mail/JiraMS" auth="Container" type="javax.mail.Session"
+	 mail.smtp.host="smtp.example.net" />
+
+    -->
+
   <!-- You realy do not want to edit anythong below this line. -->
 
   <Resource
