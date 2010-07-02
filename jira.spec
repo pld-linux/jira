@@ -51,7 +51,7 @@ BuildRequires:	rpmbuild(macros) >= 1.300
 BuildRequires:	unzip
 Requires:	jpackage-utils
 Requires:	jre-X11
-Requires:	tomcat >= 0:6.0.20-4
+Requires:	tomcat >= 6.0.26-8
 Obsoletes:	jira-enterprise
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
