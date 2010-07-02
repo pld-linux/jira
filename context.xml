@@ -39,7 +39,7 @@
     -->
 
 	<!-- Example mail session definition for Jira. You can refer it in jira
-	   configuration as JNDI: java:comp/env/mail/ConfluenceMS
+	   configuration as JNDI: java:comp/env/mail/JiraMS
 	
 	   Alternatively you can configure mail server via web interface.
 
