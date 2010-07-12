@@ -1,56 +1,62 @@
 # TODO:
-# - ask atlassian for permission to redistribute it.
-# - package plugin-timesheet as separate spec?
+# - convert to "-installer" type package?
+
+# NOTE:
+# Do not remove NoSource tags. Make sure DistFiles won't fetch JIRA sources.
+#
+# Todd Revolt from Atlassian told that:
+#   * We are free to integrate Atlassian products into PLD. So we can write
+#     installer scripts, create nosrc packages etc.
+#   * We are not permitted to redistribute their products. That mean during
+#     installation each user has to download JIRA from atlassian web page.
+#
+# See Atlassian_EULA_3.0.pdf for more details.
+
+# RELEASE INFO:
+# This version was released 06 Oct 2009
+
+%if 0
+# Download sources manually:
+wget -c http://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-enterprise-4.0.tar.gz
+wget -c http://www.atlassian.com/about/licensing/Atlassian_EULA_3.0.pdf
+wget -c http://www.atlassian.com/software/jira/docs/servers/jars/v1/jira-jars-tomcat5.zip
+%endif
 
 %include	/usr/lib/rpm/macros.java
 
-%define		plugintimesheetver	1.9
-%define		pluginsubversionver	0.10.5.2
-%define		pluginemailver		1.7
-
 Summary:	JIRA bug and issue tracker
-Name:		jira-enterprise
+Name:		jira
 Version:	4.0
-Release:	1
+Release:	1.1
 License:	Proprietary, not distributable
 Group:		Networking/Daemons/Java/Servlets
-# Sources:
-# wget -c http://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-enterprise-4.0.tar.gz
-# wget -c http://www.atlassian.com/software/jira/docs/servers/jars/v1/jira-jars-tomcat5.zip
-# wget -c http://svn.atlassian.com/svn/public/contrib/jira/jira-timesheet-plugin/jars/atlassian-jira-plugin-timesheet-1.9.jar
-# wget -c http://maven.atlassian.com/contrib/com/atlassian/jira/plugin/ext/subversion/atlassian-jira-subversion-plugin/0.10.5.2/atlassian-jira-subversion-plugin-0.10.5.2-distribution.zip
-# wget -c http://confluence.atlassian.com/download/attachments/124027052/email-this-issue-plugin-1.7.jar
-Source0:	atlassian-%{name}-%{version}.tar.gz
-# NoSource0-md5:	173689228807247d9be56a0a0e8e1590
+Source0:	atlassian-%{name}-enterprise-%{version}.tar.gz
+# NoSource0-md5:	d17425350cf1bbef6ca93c178f16a04f
 NoSource:	0
-Source1:	jira-jars-tomcat5.zip
-# NoSource1-md5:	0c1184bc77a55cb09c3cd1a66ca06b4f
+Source1:	Atlassian_EULA_3.0.pdf
+# NoSource1-md5:	9e87088024e3c5ee2e63a72a3e99a6cb
 NoSource:	1
-Source2:	%{name}-context.xml
-Source3:	%{name}-entityengine.xml
-Source4:	%{name}-application.properties
-Source5:	%{name}-README.PLD
-# Most of jira plugins are distributable (or even BSD licensed), but it make
-# no sense to store them in DF unles Source0 and Source1 are distributable.
-Source10:	atlassian-jira-plugin-timesheet-%{plugintimesheetver}.jar
-# NoSource10-md5:	c02f5d0e5300bffc966f79778d08e7eb
-NoSource:	10
-Source11:	atlassian-jira-subversion-plugin-%{pluginsubversionver}-distribution.zip
-# NoSource11-md5:	5e220049093be0f732a174e7955aa13d
-NoSource:	11
-Source12:	email-this-issue-plugin-%{pluginemailver}.jar
-# NoSource12-md5:	a55c9744943594026acdf9f215837f6a
-NoSource:	12
+Source2:	%{name}-jars-tomcat5.zip
+# NoSource2-md5:	0c1184bc77a55cb09c3cd1a66ca06b4f
+NoSource:	2
+Source3:	context.xml
+Source4:	entityengine.xml
+Source5:	application.properties
+Source6:	README.PLD
 URL:		http://www.atlassian.com/software/jira/default.jsp
 BuildRequires:	jpackage-utils
 BuildRequires:	rpm-javaprov
 BuildRequires:	rpmbuild(macros) >= 1.300
+BuildRequires:	unzip
 Requires:	jpackage-utils
 Requires:	jre-X11
-Requires:	tomcat >= 0:6.0.20-4
+Requires:	tomcat >= 6.0.26-8
+Obsoletes:	jira-enterprise
+Conflicts:	confluence >= 3
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
+%define		pluginsdir	%{_datadir}/jira/plugins
 %description
 JIRA lets you prioritise, assign, track, report and audit your
 'issues,' whatever they may be - from software bugs and help-desk
@@ -59,93 +65,51 @@ tickets to project tasks and change requests.
 More than just an issue tracker, JIRA is an extensible platform that
 you can customise to match to your business processes.
 
-%package plugin-timesheet
-Summary:	JIRA Timesheet report and portlet
-License:	BSD
-Group:		Libraries/Java
-URL:		http://confluence.atlassian.com/display/JIRAEXT/Timesheet+report+and+portlet
-Requires:	%{name} = %{version}-%{release}
-
-%description plugin-timesheet
-JIRA Timesheet report and portlet.
-
-%package plugin-subversion
-Summary:	JIRA Subversion Plugin
-License:	BSD
-Group:		Libraries/Java
-URL:		http://confluence.atlassian.com/display/JIRAEXT/JIRA+Subversion+plugin
-Requires:	%{name} = %{version}-%{release}
-
-%description plugin-subversion
-A plugin to integrate JIRA with Subversion.This plugin displays
-Subversion commit info in a tab on the associated JIRA issue. To link
-a commit to a JIRA issue, the commit's text must contain the issue key
-(eg. "This commit fixes TST-123").
-
-%package plugin-email-this-issue
-Summary:	JIRA "Email this issue" plugin
-License:	BSD
-Group:		Libraries/Java
-URL:		https://plugins.atlassian.com/plugin/details/4977
-Requires:	%{name} = %{version}-%{release}
-
-%description plugin-email-this-issue
-This plugin contains an issue operation component that allows users to
-compose an email and send the issue to arbitrary recipients.
-
-Most important features are:
-
-- send email with issue details to email addresses outside JIRA,
-  assignee, reporter and watchers.
-- attach issue attachments to email
-- control who can invoke the operation through a project role
-- text and html email format are supported, email body understands
-  Confluence wiki markup
-- email template can be customized per project and issue type
-- a comment is created reflecting the event of sending an email (body,
-  recipients, etc) - see below
-- i18n-enabled, the plugin can be translated, it is currently
-  available in English, German, French, Polish and Hungarian.
-- you have options like "CC to me" and "Reply to me" to receive a copy
-  of the email or to receive replies to the email.
-- email recipients are added to watchers on demand
-- recipients from custom fields and groups/project roles can be added
-- email options may be reused, i.e. there is no need to check all your
-  options every time you send an email
-
 %prep
-%setup -q -n atlassian-%{name}-%{version} -a1 -a11
+%setup -q -n atlassian-%{name}-enterprise-%{version} -a2
 
-mv atlassian-jira-subversion-plugin-*/README.txt README-plugin-subversion.txt
+cp %{SOURCE1} .
+
+# http://confluence.atlassian.com/pages/viewpage.action?pageId=208962752
+find -name 'org.apache.felix.main*.jar' | xargs rm
+cp %{SOURCE7} webapp/WEB-INF/lib
 
 # set paths for logs
 sed -i 's,^\(log4j\.appender\.[a-z]*\.File\)=\(.*\)$,\1=/var/log/jira/\2,' webapp/WEB-INF/classes/log4j.properties
 
-cp %{SOURCE3} edit-webapp/WEB-INF/classes/entityengine.xml
-cp %{SOURCE4} edit-webapp/WEB-INF/classes/jira-application.properties
-cp %{SOURCE5} README.PLD
+cp %{SOURCE4} edit-webapp/WEB-INF/classes/entityengine.xml
+cp %{SOURCE5} edit-webapp/WEB-INF/classes/jira-application.properties
+cp %{SOURCE6} README.PLD
 
 %build
 %ant compile
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_datadir},/var/log/jira}
+install -d $RPM_BUILD_ROOT{%{pluginsdir},/var/log/jira}
 install -d $RPM_BUILD_ROOT%{_sharedstatedir}/jira/{jiradb,index,attachments,backups}
-cp -a tmp/build/war $RPM_BUILD_ROOT%{_datadir}/jira
+cp -a tmp/build/war/* $RPM_BUILD_ROOT%{_datadir}/jira
 
 # configuration
 install -d $RPM_BUILD_ROOT{%{_sysconfdir}/jira,%{_sharedstatedir}/tomcat/conf/Catalina/localhost}
-install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/jira/tomcat-context.xml
+install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/jira/tomcat-context.xml
 ln -s %{_sysconfdir}/jira/tomcat-context.xml $RPM_BUILD_ROOT%{_sharedstatedir}/tomcat/conf/Catalina/localhost/jira.xml
 mv $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/jira-application.properties $RPM_BUILD_ROOT%{_sysconfdir}/jira/jira-application.properties
 mv $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/log4j.properties $RPM_BUILD_ROOT%{_sysconfdir}/jira/log4j.properties
 mv $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/entityengine.xml $RPM_BUILD_ROOT%{_sysconfdir}/jira/entityengine.xml
 mv $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/osuser.xml $RPM_BUILD_ROOT%{_sysconfdir}/jira/osuser.xml
+mv $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/seraph-config.xml $RPM_BUILD_ROOT%{_sysconfdir}/jira/seraph-config.xml
+mv $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/actions.xml $RPM_BUILD_ROOT%{_sysconfdir}/jira/actions.xml
+mv $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/crowd-ehcache.xml $RPM_BUILD_ROOT%{_sysconfdir}/jira/crowd-ehcache.xml
+mv $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/crowd.properties $RPM_BUILD_ROOT%{_sysconfdir}/jira/crowd.properties
 ln -s %{_sysconfdir}/jira/jira-application.properties $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/jira-application.properties
 ln -s %{_sysconfdir}/jira/log4j.properties $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/log4j.properties
 ln -s %{_sysconfdir}/jira/entityengine.xml $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/entityengine.xml
 ln -s %{_sysconfdir}/jira/osuser.xml $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/osuser.xml
+ln -s %{_sysconfdir}/jira/seraph-config.xml $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/seraph-config.xml
+ln -s %{_sysconfdir}/jira/actions.xml $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/actions.xml
+ln -s %{_sysconfdir}/jira/crowd-ehcache.xml $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/crowd-ehcache.xml
+ln -s %{_sysconfdir}/jira/crowd.properties $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/crowd.properties
 
 # some additional libraries
 install -d $RPM_BUILD_ROOT%{_datadir}/tomcat/lib
@@ -153,19 +117,12 @@ cp -a jira-jars-tomcat5/* $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/lib
 hsqldbfilename=$(basename $(ls $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/lib/hsql*jar))
 ln -s %{_datadir}/jira/WEB-INF/lib/$hsqldbfilename $RPM_BUILD_ROOT%{_datadir}/tomcat/lib/hsqldb.jar
 
-# plugins
-cp %{SOURCE10} $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/lib/atlassian-jira-plugin-timesheet-%{plugintimesheetver}.jar
-
-cp atlassian-jira-subversion-plugin-*/subversion-jira-plugin.properties $RPM_BUILD_ROOT%{_sysconfdir}/jira/subversion-jira-plugin.properties
-cp atlassian-jira-subversion-plugin-*/lib/* $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/lib
-ln -s %{_sysconfdir}/jira/subversion-jira-plugin.properties $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/subversion-jira-plugin.properties
-cp %{SOURCE12} $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/lib/email-this-issue-plugin-%{pluginemailver}.jar
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
+%doc licenses/csv.license README.PLD Atlassian_EULA_3.0.pdf
 %{_datadir}/jira
 %dir %attr(750,root,tomcat) %{_sysconfdir}/jira
 %config(noreplace) %verify(not md5 mtime size) %attr(640,root,tomcat) %{_sysconfdir}/jira/*
@@ -177,29 +134,3 @@ rm -rf $RPM_BUILD_ROOT
 %attr(2775,root,servlet) %dir %{_sharedstatedir}/jira/attachments
 %attr(2775,root,servlet) %dir %{_sharedstatedir}/jira/backups
 %attr(2775,root,servlet) %dir /var/log/jira
-%doc licenses/csv.license README.PLD
-
-#plugins
-%exclude %{_datadir}/jira/WEB-INF/lib/atlassian-jira-plugin-timesheet-%{plugintimesheetver}.jar
-%exclude %{_datadir}/jira/WEB-INF/lib/atlassian-jira-subversion-plugin-%{pluginsubversionver}.jar
-%exclude %{_datadir}/jira/WEB-INF/lib/svnkit-1.2.1.5297.jar
-%exclude %{_datadir}/jira/WEB-INF/lib/trilead-ssh2-build213-svnkit-1.2-patch.jar
-%exclude %{_datadir}/jira/WEB-INF/lib/email-this-issue-plugin-%{pluginemailver}.jar
-%exclude %{_datadir}/jira/WEB-INF/classes/subversion-jira-plugin.properties
-%exclude %{_sysconfdir}/jira/subversion-jira-plugin.properties
-
-%files plugin-timesheet
-%defattr(644,root,root,755)
-%{_datadir}/jira/WEB-INF/lib/atlassian-jira-plugin-timesheet-%{plugintimesheetver}.jar
-
-%files plugin-subversion
-%defattr(644,root,root,755)
-%config(noreplace) %verify(not md5 mtime size) %attr(640,root,tomcat) %{_sysconfdir}/jira/subversion-jira-plugin.properties
-%{_datadir}/jira/WEB-INF/classes/subversion-jira-plugin.properties
-%{_datadir}/jira/WEB-INF/lib/atlassian-jira-subversion-plugin-%{pluginsubversionver}.jar
-%{_datadir}/jira/WEB-INF/lib/svnkit-1.2.1.5297.jar
-%{_datadir}/jira/WEB-INF/lib/trilead-ssh2-build213-svnkit-1.2-patch.jar
-
-%files plugin-email-this-issue
-%defattr(644,root,root,755)
-%{_datadir}/jira/WEB-INF/lib/email-this-issue-plugin-%{pluginemailver}.jar
