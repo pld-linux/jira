@@ -31,7 +31,7 @@ Release:	1.1
 License:	Proprietary, not distributable
 Group:		Networking/Daemons/Java/Servlets
 Source0:	atlassian-%{name}-enterprise-%{version}.tar.gz
-# NoSource0-md5:	d17425350cf1bbef6ca93c178f16a04f
+# NoSource0-md5:	173689228807247d9be56a0a0e8e1590
 NoSource:	0
 Source1:	Atlassian_EULA_3.0.pdf
 # NoSource1-md5:	9e87088024e3c5ee2e63a72a3e99a6cb
@@ -69,10 +69,6 @@ you can customise to match to your business processes.
 %setup -q -n atlassian-%{name}-enterprise-%{version} -a2
 
 cp %{SOURCE1} .
-
-# http://confluence.atlassian.com/pages/viewpage.action?pageId=208962752
-find -name 'org.apache.felix.main*.jar' | xargs rm
-cp %{SOURCE7} webapp/WEB-INF/lib
 
 # set paths for logs
 sed -i 's,^\(log4j\.appender\.[a-z]*\.File\)=\(.*\)$,\1=/var/log/jira/\2,' webapp/WEB-INF/classes/log4j.properties
