@@ -18,6 +18,7 @@
 %if 0
 # Download sources manually:
 wget -c http://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-enterprise-4.0.tar.gz
+wget -c http://downloads.atlassian.com/software/jira/downloads/patch/patch-JRA-21004-4.0.zip
 wget -c http://www.atlassian.com/about/licensing/Atlassian_EULA_3.0.pdf
 wget -c http://www.atlassian.com/software/jira/docs/servers/jars/v1/jira-jars-tomcat5.zip
 %endif
@@ -27,7 +28,7 @@ wget -c http://www.atlassian.com/software/jira/docs/servers/jars/v1/jira-jars-to
 Summary:	JIRA bug and issue tracker
 Name:		jira
 Version:	4.0
-Release:	1.1
+Release:	2
 License:	Proprietary, not distributable
 Group:		Networking/Daemons/Java/Servlets
 Source0:	atlassian-%{name}-enterprise-%{version}.tar.gz
@@ -43,6 +44,10 @@ Source3:	context.xml
 Source4:	entityengine.xml
 Source5:	application.properties
 Source6:	README.PLD
+# see http://confluence.atlassian.com/display/JIRA/JIRA+Security+Advisory+2010-04-16
+Source7:	patch-JRA-21004-4.0.zip
+# NoSource7-md5:	83748a2151dcbf17abc1c9026bc06e56
+NoSource:	7
 URL:		http://www.atlassian.com/software/jira/default.jsp
 BuildRequires:	jpackage-utils
 BuildRequires:	rpm-javaprov
@@ -66,7 +71,9 @@ More than just an issue tracker, JIRA is an extensible platform that
 you can customise to match to your business processes.
 
 %prep
-%setup -q -n atlassian-%{name}-enterprise-%{version} -a2
+%setup -q -n atlassian-%{name}-enterprise-%{version} -a2 -a7
+
+unzip -o -d webapp JRA-21004-4.0-patch.zip
 
 cp %{SOURCE1} .
 
