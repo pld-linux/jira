@@ -25,7 +25,7 @@ wget -c http://repository.atlassian.com/org.apache.felix/jars/org.apache.felix.m
 Summary:	JIRA bug and issue tracker
 Name:		jira
 Version:	4.1.2
-Release:	1
+Release:	2
 License:	Proprietary, not distributable
 Group:		Networking/Daemons/Java/Servlets
 Source0:	atlassian-%{name}-enterprise-%{version}.tar.gz
@@ -88,6 +88,7 @@ cp %{SOURCE6} README.PLD
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{pluginsdir},/var/log/jira}
 install -d $RPM_BUILD_ROOT%{_sharedstatedir}/jira/{jiradb,index,attachments,backups}
+install -d $RPM_BUILD_ROOT%{_sharedstatedir}/jira/plugins/installed-plugins
 cp -a tmp/build/war/* $RPM_BUILD_ROOT%{_datadir}/jira
 
 # configuration
@@ -133,4 +134,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(2775,root,servlet) %dir %{_sharedstatedir}/jira/index
 %attr(2775,root,servlet) %dir %{_sharedstatedir}/jira/attachments
 %attr(2775,root,servlet) %dir %{_sharedstatedir}/jira/backups
+%attr(2775,root,servlet) %dir %{_sharedstatedir}/jira/plugins
+%attr(2775,root,servlet) %dir %{_sharedstatedir}/jira/plugins/installed-plugins
 %attr(2775,root,servlet) %dir /var/log/jira
