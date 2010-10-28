@@ -13,7 +13,7 @@
 # See Atlassian_EULA_3.0.pdf for more details.
 
 # RELEASE INFO:
-# This version of confluence was released on the 27st October 2010
+# This version of jira was released on the 27st October 2010
 
 %if 0
 # Download sources manually:
