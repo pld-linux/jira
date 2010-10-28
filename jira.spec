@@ -12,9 +12,12 @@
 #
 # See Atlassian_EULA_3.0.pdf for more details.
 
+# RELEASE INFO:
+# This version of confluence was released on the 27st October 2010
+
 %if 0
 # Download sources manually:
-wget -c http://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-enterprise-4.1.2.tar.gz
+wget -c http://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-enterprise-4.2.tar.gz
 wget -c http://www.atlassian.com/about/licensing/Atlassian_EULA_3.0.pdf
 wget -c http://www.atlassian.com/software/jira/docs/servers/jars/v1/jira-jars-tomcat5.zip
 wget -c http://repository.atlassian.com/org.apache.felix/jars/org.apache.felix.main-2.0.5.jar
@@ -22,14 +25,14 @@ wget -c http://repository.atlassian.com/org.apache.felix/jars/org.apache.felix.m
 
 %include	/usr/lib/rpm/macros.java
 
-Summary:	JIRA bug and issue tracker
+Summary:	JIRA issue tracker and project management tool
 Name:		jira
-Version:	4.1.2
-Release:	2
+Version:	4.2
+Release:	1
 License:	Proprietary, not distributable
 Group:		Networking/Daemons/Java/Servlets
 Source0:	atlassian-%{name}-enterprise-%{version}.tar.gz
-# NoSource0-md5:	d17425350cf1bbef6ca93c178f16a04f
+# NoSource0-md5:	7339acae1606fdfb1ff711f03a752f0e
 NoSource:	0
 Source1:	Atlassian_EULA_3.0.pdf
 # NoSource1-md5:	9e87088024e3c5ee2e63a72a3e99a6cb
@@ -41,7 +44,6 @@ Source3:	context.xml
 Source4:	entityengine.xml
 Source5:	application.properties
 Source6:	README.PLD
-Source7:    org.apache.felix.main-2.0.5.jar
 # NoSource7-md5:	edfbdb9fd59aeb21022391e2934f75c0
 NoSource:   7
 URL:		http://www.atlassian.com/software/jira/default.jsp
@@ -69,10 +71,6 @@ you can customise to match to your business processes.
 %setup -q -n atlassian-%{name}-enterprise-%{version} -a2
 
 cp %{SOURCE1} .
-
-# http://confluence.atlassian.com/pages/viewpage.action?pageId=208962752
-find -name 'org.apache.felix.main*.jar' | xargs rm
-cp %{SOURCE7} webapp/WEB-INF/lib
 
 # set paths for logs
 sed -i 's,^\(log4j\.appender\.[a-z]*\.File\)=\(.*\)$,\1=/var/log/jira/\2,' webapp/WEB-INF/classes/log4j.properties
