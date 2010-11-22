@@ -122,7 +122,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/jira
 %dir %attr(750,root,tomcat) %{_sysconfdir}/jira
 %config(noreplace) %verify(not md5 mtime size) %attr(640,root,tomcat) %{_sysconfdir}/jira/*
-%{_sharedstatedir}/tomcat/conf/Catalina/localhost/jira.xml
+%config(missingok) %{_sharedstatedir}/tomcat/conf/Catalina/localhost/jira.xml
 %{_datadir}/tomcat/lib/*jar
 %attr(2775,root,servlet) %dir %{_sharedstatedir}/jira
 %attr(2775,root,servlet) %dir %{_sharedstatedir}/jira/jiradb
