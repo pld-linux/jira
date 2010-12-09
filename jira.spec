@@ -13,11 +13,11 @@
 # See Atlassian_EULA_3.0.pdf for more details.
 
 # RELEASE INFO:
-# This version of jira was released on the 27st October 2010
+# This version of jira was released on the 30th November 2010
 
 %if 0
 # Download sources manually:
-wget -c http://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-enterprise-4.2.tar.gz
+wget -c http://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-enterprise-4.2.1-b588.tar.gz
 wget -c http://www.atlassian.com/about/licensing/Atlassian_EULA_3.0.pdf
 wget -c http://www.atlassian.com/software/jira/docs/servers/jars/v1/jira-jars-tomcat5.zip
 %endif
@@ -26,12 +26,12 @@ wget -c http://www.atlassian.com/software/jira/docs/servers/jars/v1/jira-jars-to
 
 Summary:	JIRA issue tracker and project management tool
 Name:		jira
-Version:	4.2
+Version:	4.2.1
 Release:	1
 License:	Proprietary, not distributable
 Group:		Networking/Daemons/Java/Servlets
-Source0:	atlassian-%{name}-enterprise-%{version}.tar.gz
-# NoSource0-md5:	7339acae1606fdfb1ff711f03a752f0e
+Source0:	atlassian-%{name}-enterprise-%{version}-b588.tar.gz
+# NoSource0-md5:	95f3cd5c64ef81de9b2fdd233f4b1823
 NoSource:	0
 Source1:	Atlassian_EULA_3.0.pdf
 # NoSource1-md5:	9e87088024e3c5ee2e63a72a3e99a6cb
@@ -65,7 +65,7 @@ More than just an issue tracker, JIRA is an extensible platform that
 you can customise to match to your business processes.
 
 %prep
-%setup -q -n atlassian-%{name}-enterprise-%{version} -a2
+%setup -q -n atlassian-%{name}-enterprise-%{version}-b588 -a2
 
 cp %{SOURCE1} .
 
