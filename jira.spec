@@ -87,9 +87,9 @@ install -d $RPM_BUILD_ROOT%{_sharedstatedir}/jira/plugins/installed-plugins
 cp -a tmp/build/war/* $RPM_BUILD_ROOT%{_datadir}/jira
 
 # configuration
-install -d $RPM_BUILD_ROOT{%{_sysconfdir}/jira,%{_sharedstatedir}/tomcat/conf/Catalina/localhost}
+install -d $RPM_BUILD_ROOT{%{_sysconfdir}/jira,%{_tomcatconfdir}}
 install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/jira/tomcat-context.xml
-ln -s %{_sysconfdir}/jira/tomcat-context.xml $RPM_BUILD_ROOT%{_sharedstatedir}/tomcat/conf/Catalina/localhost/jira.xml
+ln -s %{_sysconfdir}/jira/tomcat-context.xml $RPM_BUILD_ROOT%{_tomcatconfdir}/jira.xml
 mv $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/jira-application.properties $RPM_BUILD_ROOT%{_sysconfdir}/jira/jira-application.properties
 mv $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/log4j.properties $RPM_BUILD_ROOT%{_sysconfdir}/jira/log4j.properties
 mv $RPM_BUILD_ROOT%{_datadir}/jira/WEB-INF/classes/entityengine.xml $RPM_BUILD_ROOT%{_sysconfdir}/jira/entityengine.xml
@@ -122,7 +122,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/jira
 %dir %attr(750,root,tomcat) %{_sysconfdir}/jira
 %config(noreplace) %verify(not md5 mtime size) %attr(640,root,tomcat) %{_sysconfdir}/jira/*
-%config(missingok) %{_sharedstatedir}/tomcat/conf/Catalina/localhost/jira.xml
+%config(missingok) %{_tomcatconfdir}/jira.xml
 %{_datadir}/tomcat/lib/*jar
 %attr(2775,root,servlet) %dir %{_sharedstatedir}/jira
 %attr(2775,root,servlet) %dir %{_sharedstatedir}/jira/jiradb
