@@ -22,7 +22,6 @@ wget -c http://www.atlassian.com/about/licensing/Atlassian_EULA_3.0.pdf
 wget -c http://www.atlassian.com/software/jira/docs/servers/jars/v1/jira-jars-tomcat5.zip
 %endif
 
-%include	/usr/lib/rpm/macros.java
 
 Summary:	JIRA issue tracker and project management tool
 Name:		jira
